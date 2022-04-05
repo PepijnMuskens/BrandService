@@ -46,7 +46,7 @@ namespace BrandService.Controllers
             return JsonSerializer.Serialize(brand);
 
         }
-        [HttpGet("AllBrands")]
+        [HttpGet("Brandos")]
         public string Brands()
         {
             List<Brand> brands = new List<Brand>();
