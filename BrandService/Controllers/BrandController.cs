@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using System.Text.Json;
 
 namespace BrandService.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("Brand/")]
+    
     public class BrandController : Controller
     {
+       
         private string connectionString = "Server=studmysql01.fhict.local;Uid=dbi458416;Database=dbi458416;Pwd=1234";
         //private string connectionString = "server=localhost;user=root;database=pimwoc;port=3306;password='';SslMode=none";
 
@@ -46,7 +49,8 @@ namespace BrandService.Controllers
             return JsonSerializer.Serialize(brand);
 
         }
-        [HttpGet("Brandos")]
+        
+        [HttpGet("Brands")]
         public string Brands()
         {
             List<Brand> brands = new List<Brand>();

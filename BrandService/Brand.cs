@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public string Name { get; set; }    
         public string Country { get; set; }
+        public int ProductCount { get; set; }
 
         public Brand(string name, string country)
         {
