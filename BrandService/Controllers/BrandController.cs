@@ -25,7 +25,7 @@ namespace BrandService.Controllers
         [HttpGet("Brand")]
         public string Brand(string name)
         {
-            Brand brand = new Brand("", "");
+            Brand brand;
             try
             {
                 connection.Open();
@@ -34,9 +34,9 @@ namespace BrandService.Controllers
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    brand = new Brand(reader.GetString(1), reader.GetString(2), (byte[])reader.GetValue(3));
                     brand.Id = reader.GetInt32(0);
-                    brand.Name = reader.GetString(1);
-                    brand.Country = reader.GetString(2);
+                    return JsonSerializer.Serialize(brand);
                 }
                 
 
@@ -46,7 +46,7 @@ namespace BrandService.Controllers
                 Console.WriteLine(ex.Message);
             }
             connection.Close();
-            return JsonSerializer.Serialize(brand);
+            return JsonSerializer.Serialize(new Brand());
 
         }
         
@@ -58,16 +58,14 @@ namespace BrandService.Controllers
             {
                 connection.Open();
 
-                query = "SELECT brands.Id, brands.Name, country.English FROM `brands` INNER JOIN country ON brands.Country = country.Id;";
+                query = "SELECT brands.Id, brands.Name, country.English, icons.Icon FROM `brands` INNER JOIN country ON brands.Country = country.Id INNER JOIN icons ON brands.Icon = icons.Id;";
                 var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    Brand brand = new Brand("", "");
+                   
+                    Brand brand = new Brand(reader.GetString(1), reader.GetString(2), (byte[])reader.GetValue(3));
                     brand.Id = reader.GetInt32(0);
-                    brand.Name = reader.GetString(1);
-                    brand.Country = reader.GetString(2);
-
                     brands.Add(brand);
                 }
 

@@ -49,15 +49,13 @@ namespace BrandService.Controllers
             try
             {
                 connection.Open();
-                query = $"SELECT * From brands LIMIT {nr};";
+                query = $"SELECT brands.Id, brands.Name, country.English, icons.Icon FROM `brands` INNER JOIN country ON brands.Country = country.Id INNER JOIN icons ON brands.Icon = icons.Id LIMIT {nr};";
                 var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    Brand brand = new Brand("", "");
+                    Brand brand = new Brand(reader.GetString(1), reader.GetString(2), (byte[])reader.GetValue(3));
                     brand.Id = reader.GetInt32(0);
-                    brand.Name = reader.GetString(1);
-                    brand.Country = reader.GetString(2);
                     brand.ProductCount = random.Next(10, 100);
 
                     brands.Add(brand);
