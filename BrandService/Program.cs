@@ -75,6 +75,8 @@ public class AdminSafeListMiddleware
             var badIp = true;
             foreach (var address in _safelist)
             {
+                badIp = false;
+                break;
                 if (address.SequenceEqual(bytes))
                 {
                     badIp = false;

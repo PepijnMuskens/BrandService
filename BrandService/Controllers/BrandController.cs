@@ -11,15 +11,11 @@ namespace BrandService.Controllers
     public class BrandController : Controller
     {
        
-        private string connectionString = "Server=studmysql01.fhict.local;Uid=dbi458416;Database=dbi458416;Pwd=1234";
-        //private string connectionString = "server=localhost;user=root;database=pimwoc;port=3306;password='';SslMode=none";
-
-        private string query;
-        MySqlConnection connection; 
+        private readonly string connectionString = "Server=studmysql01.fhict.local;Uid=dbi458416;Database=dbi458416;Pwd=1234";
+        readonly MySqlConnection connection; 
         public BrandController()
         {
             connection = new MySqlConnection(connectionString);
-            query = "";
 
         }
         [HttpGet("Brand")]
@@ -29,7 +25,7 @@ namespace BrandService.Controllers
             try
             {
                 connection.Open();
-                query = $"SELECT brands.Id, brands.Name, country.English FROM `brands` INNER JOIN country ON brands.Country = country.Id WHERE brands.Name = '{name}'";
+                string query = $"SELECT brands.Id, brands.Name, country.English FROM `brands` INNER JOIN country ON brands.Country = country.Id WHERE brands.Name = '{name}'";
                 var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -58,7 +54,7 @@ namespace BrandService.Controllers
             {
                 connection.Open();
 
-                query = "SELECT brands.Id, brands.Name, country.English, icons.Icon FROM `brands` INNER JOIN country ON brands.Country = country.Id INNER JOIN icons ON brands.Icon = icons.Id;";
+                string query = "SELECT brands.Id, brands.Name, country.English, icons.Icon FROM `brands` INNER JOIN country ON brands.Country = country.Id INNER JOIN icons ON brands.Icon = icons.Id;";
                 var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())

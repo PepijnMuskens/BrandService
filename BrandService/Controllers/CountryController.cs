@@ -8,16 +8,11 @@ namespace BrandService.Controllers
     [Route("[controller]")]
     public class CountryController : Controller
     {
-        private string connectionString = "Server=studmysql01.fhict.local;Uid=dbi458416;Database=dbi458416;Pwd=1234";
-        //private string connectionString = "server=localhost;user=root;database=pimwoc;port=3306;password='';SslMode=none";
-
-        private string query;
-        MySqlConnection connection; 
+        private readonly string connectionString = "Server=studmysql01.fhict.local;Uid=dbi458416;Database=dbi458416;Pwd=1234";
+        readonly MySqlConnection connection; 
         public CountryController()
         {
             connection = new MySqlConnection(connectionString);
-            query = "";
-
         }
         [HttpGet("Country")]
         public string Brand()
@@ -27,7 +22,7 @@ namespace BrandService.Controllers
             try
             {
                 connection.Open();
-                query = $"SELECT Id, English FROM `country` ";
+                string query = $"SELECT Id, English FROM `country` ";
                 var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -53,7 +48,7 @@ namespace BrandService.Controllers
             {
                 connection.Open();
 
-                query = "UPDATE `country` SET `English`='America' WHERE Dutch = 'Amerika'";
+                string query = "UPDATE `country` SET `English`='America' WHERE Dutch = 'Amerika'";
                 var cmd = new MySqlCommand(query, connection);
                 cmd.ExecuteNonQuery();
                 return 1;

@@ -10,16 +10,13 @@ namespace BrandService.Controllers
     [EnableCors("CorsPolicy")]
     public class HomeController : Controller
     {
-        private string connectionString = "Server=studmysql01.fhict.local;Uid=dbi458416;Database=dbi458416;Pwd=1234";
-        //private string connectionString = "server=localhost;user=root;database=pimwoc;port=3306;password='';SslMode=none";
+        readonly private string connectionString = "Server=studmysql01.fhict.local;Uid=dbi458416;Database=dbi458416;Pwd=1234";
         private BrandController brandController;
 
-        private string query;
-        MySqlConnection connection; 
+        readonly MySqlConnection connection; 
         public HomeController()
         {
             connection = new MySqlConnection(connectionString);
-            query = "";
             brandController = new BrandController();
 
         }
@@ -49,7 +46,7 @@ namespace BrandService.Controllers
             try
             {
                 connection.Open();
-                query = $"SELECT brands.Id, brands.Name, country.English, icons.Icon FROM `brands` INNER JOIN country ON brands.Country = country.Id INNER JOIN icons ON brands.Icon = icons.Id LIMIT {nr};";
+                string query = $"SELECT brands.Id, brands.Name, country.English, icons.Icon FROM `brands` INNER JOIN country ON brands.Country = country.Id INNER JOIN icons ON brands.Icon = icons.Id LIMIT {nr};";
                 var cmd = new MySqlCommand(query, connection);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -63,7 +60,8 @@ namespace BrandService.Controllers
             }
             catch
             {
-
+                connection.Close();
+                return brands;
             }
             connection.Close();
             return brands;
@@ -73,7 +71,7 @@ namespace BrandService.Controllers
             try
             {
                 connection.Open();
-                query = "select COUNT(id) FROM brands;";
+                string query = "select COUNT(id) FROM brands;";
                 var cmd = new MySqlCommand(query, connection);
                 int brands = Convert.ToInt32(cmd.ExecuteScalar());
                 query = "select COUNT(id) FROM retailer;";
