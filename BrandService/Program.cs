@@ -71,7 +71,6 @@ public class AdminSafeListMiddleware
             var remoteIp = context.Connection.RemoteIpAddress;
             _logger.LogDebug("Request from Remote IP address: {RemoteIp}", remoteIp);
 
-            var bytes = remoteIp.GetAddressBytes();
             var badIp = true;
             foreach (var address in _safelist)
             {

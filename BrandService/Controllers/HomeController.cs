@@ -11,7 +11,7 @@ namespace BrandService.Controllers
     public class HomeController : Controller
     {
         readonly private string connectionString = "Server=studmysql01.fhict.local;Uid=dbi458416;Database=dbi458416;Pwd=1234";
-        private BrandController brandController;
+        private readonly BrandController brandController;
 
         readonly MySqlConnection connection; 
         public HomeController()
