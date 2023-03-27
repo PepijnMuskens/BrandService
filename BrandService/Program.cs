@@ -76,11 +76,7 @@ public class AdminSafeListMiddleware
             {
                 badIp = false;
                 break;
-                if (address.SequenceEqual(bytes))
-                {
-                    badIp = false;
-                    break;
-                }
+
             }
 
             if (badIp)
